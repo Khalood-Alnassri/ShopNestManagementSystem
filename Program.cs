@@ -100,25 +100,70 @@
     // Product class represents a product in the system, which can be either physical or digital
     abstract class Product
     {
-        protected string name;
-        protected double price;
+        protected string name; // all child classes can access this field
+        protected double price; // all child classes can access this field
+        private static int nextProductID = 100; // Static field to generate unique product IDs
+        private static int totalProductsCreated;
 
-        public abstract void DisplayInfo();          // Must be overridden
-        public virtual double CalculateTotalCost()   // Can be overridden
+        // property to only get the unique product ID
+        public int GetProductID { get; }
+
+        // property to only get the name of the product
+        public string GetName { get; }
+
+        // property to only get the price of the product
+        public double GetPrice { get; }
+
+        // property to set the price of the product 
+        public void SetPrice (double value)
+        {
+            if (value < 0)
+            {
+                Console.WriteLine("Price cannot be negative. Setting price to 0.");
+                price = 0;
+            }
+            else
+            {
+                price = value;
+            }
+        }
+
+        // property to only get the total number of products created
+        public static int GetTotalProductsCreated() 
+        {
+            return totalProductsCreated;
+        }
+
+        // Constructor to initialize the product with a unique ID, name, and price
+        public Product(string name, double price)
+        {
+            this.name = name;
+            SetPrice(price);
+            GetProductID = nextProductID++;
+            totalProductsCreated++;
+        }
+
+        // Must be overridden
+        public abstract void DisplayInfo();
+
+        // method to calculate total cost, can be overridden
+        public virtual double CalculateTotalCost()   
         {
             return price;
         }
     }
 
     // PhysicalProduct class inherits from Product, representing a physical product in the system
-    //class PhysicalProduct : Product
-    //{
-      
-    //}
+    class PhysicalProduct : Product
+    {
+
+    }
 
     // DigitalProduct class inherits from Product, representing a digital product in the system
-   // class DigitalProduct : Product
-  //
+    class DigitalProduct : Product
+    {
+
+    }
 
     // User class represents a user in the system, which can be a customer or an admin
     abstract class User
