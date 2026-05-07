@@ -156,6 +156,31 @@
     // PhysicalProduct class inherits from Product, representing a physical product in the system
     class PhysicalProduct : Product
     {
+        double weightKg;
+        double shippingCostPerKg;
+
+        // property to only get the weight of the physical product
+        public double GetWeightKg { get; }
+
+        // constructor to initialize the physical product
+        public PhysicalProduct(string name, double price, double weightKg, double shippingCostPerKg) : base(name, price)
+        {
+            this.weightKg = weightKg;
+            this.shippingCostPerKg = shippingCostPerKg;
+        }
+
+        // override method to display Physical Product
+        public override void DisplayInfo()
+        {
+            Console.WriteLine("Physical Product ID: " +GetProductID + "\nName: " + name + "\nPrice: " + price + "\nWeight: " + weightKg + "kg" + "\nShipping Cost per kg : " + shippingCostPerKg);
+        }
+
+        // override method to calculate total cost of Physical Product
+        public override double CalculateTotalCost() 
+        {
+            price = price + (weightKg * shippingCostPerKg);
+            return price;
+        }
 
     }
 
