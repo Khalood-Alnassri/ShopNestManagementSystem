@@ -172,6 +172,7 @@
         // override method to display Physical Product
         public override void DisplayInfo()
         {
+            Console.WriteLine("Physical product: ");
             Console.WriteLine("Physical Product ID: " +GetProductID + "\nName: " + name + "\nPrice: " + price + "\nWeight: " + weightKg + "kg" + "\nShipping Cost per kg : " + shippingCostPerKg);
         }
 
@@ -187,6 +188,22 @@
     // DigitalProduct class inherits from Product, representing a digital product in the system
     class DigitalProduct : Product
     {
+        double fileSizeMB;
+        string downloadLink;
+
+        // constructor to initialize the Digital product
+        public DigitalProduct(string name, double price, double fileSizeMB, string downloadLink) : base (name, price)
+        {
+            this.fileSizeMB = fileSizeMB;
+            this.downloadLink = downloadLink;
+        }
+
+        // override method to display Digital Product
+        public override void DisplayInfo()
+        {
+            Console.WriteLine("Digital product: ");
+            Console.WriteLine("Digital Product ID: " + GetProductID + "\nName: " + name + "\nPrice: " + price + "\nFile Size: " + fileSizeMB + "MB" + "\nDownload Link: " + downloadLink);
+        }
 
     }
 
