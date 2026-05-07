@@ -242,7 +242,50 @@
     // Customer class inherits from User, representing a customer in the system
     class Customer : User
     {
+        List<Order> orders;
 
+        // constructor to initialize the customer
+        public Customer(string fullName, string email) : base(fullName, email)
+        {
+            orders = new List<Order>();
+        }
+
+        // override method to display Customer
+        public override void DisplayInfo()
+        {
+            Console.WriteLine("Customer: ");
+            Console.WriteLine("Full Name: " + fullName + "\nEmail: " + email + "number of orders placed: " + orders);
+        }
+
+        // method to add an order to the customer's order history
+        public void AddOrder(Order order)
+        {
+            orders.Add(order);
+        }
+
+        // method to remove an order from the customer's order history
+        public void RemoveOrder(int orderID)
+        {
+            orders.RemoveAll(o => o.GetOrderID == orderID);
+        }
+
+        // method to display the customer's order history
+        public void DisplayOrderHistory()
+        {
+            Console.WriteLine("Order History for " + fullName + ":");
+            foreach (var order in orders)
+            {
+                if (order != null)
+                {
+                    order.DisplayInfo();
+                    Console.WriteLine("-----------------------------------");
+                }
+                else
+                {
+                    Console.WriteLine("No orders yet!");
+                }
+            }
+        }
 
     }
 
