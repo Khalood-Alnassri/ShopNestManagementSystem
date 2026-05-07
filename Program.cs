@@ -292,6 +292,19 @@
     // Admin class inherits from User, representing an administrator in the system
     class Admin : User
     {
-        
+        string role;
+
+        public Admin(string fullName, string email, string role) : base(fullName, email)
+        {
+            this.role = role;
+        }
+
+        // override method to display Admin
+        public sealed override void DisplayInfo()
+        {
+            Console.WriteLine("Admin: ");
+            Console.WriteLine("Full Name: " + fullName + "\nEmail: " + email + "\nRole: " + role);
+        }
+
     }
 }
