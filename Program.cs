@@ -307,4 +307,41 @@
         }
 
     }
+
+    class Order
+    {
+       static int nextOrderID = 5000; // Static field to generate unique order IDs
+        int orderID;
+        Customer customer;
+        Product product;
+        double totalCost;
+
+        // property to only get the unique order ID
+        public int GetOrderID { get; }
+
+        // property to only get the total cost of the order
+        public Customer GetCustomer { get; }
+
+        // property to only get the total cost of the order
+        public double GetTotalCost { get; }
+
+        // constructor to initialize the order 
+        public Order(Customer customer, Product product)
+        {
+            orderID = nextOrderID++;
+            this.customer = customer;
+            this.product = product;
+
+            totalCost = product.CalculateTotalCost(); // Calculate total cost based on the product's price and any additional costs
+        }
+
+        public void DisplayInfo()
+        {
+            Console.WriteLine("Order ID: " + orderID);
+            Console.WriteLine("Customer: " + customer.GetFullName);
+            Console.WriteLine("Product: " + product.GetName);
+            Console.WriteLine("Total Cost paid: " + totalCost);
+        }
+
+    }
 }
