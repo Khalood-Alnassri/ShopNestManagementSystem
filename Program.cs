@@ -210,12 +210,40 @@
     // User class represents a user in the system, which can be a customer or an admin
     abstract class User
     {
+        static int totalUsersCreated;
+        protected string fullName;
+        protected string email;
+
+        // property to only get the full name of the user
+        public string GetFullName { get; }
+
+        // property to only get the email of the user
+        public string GetEmail { get; }
+
+        // constructor to initialize the user 
+        public User(string fullName, string email)
+        {
+            this.fullName = fullName;
+            this.email = email;
+            totalUsersCreated++;
+        }
+
+        // property to only get the total number of users created
+        public static int GetTotalUsersCreated()
+        {
+            return totalUsersCreated;
+        }
+
+        // Must be overridden (Each derived class must print its own relevant details.)
+        public abstract void DisplayInfo();
 
     }
 
     // Customer class inherits from User, representing a customer in the system
     class Customer : User
     {
+
+
     }
 
     // Admin class inherits from User, representing an administrator in the system
