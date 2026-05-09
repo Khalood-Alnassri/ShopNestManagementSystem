@@ -5,7 +5,7 @@ namespace ShopNestManagementSystem
 {
     internal class Program
     {
-
+        public static Store shop = new Store("ShopNest");
         public static void DisplayMenu()
         {
             Console.WriteLine("==================================================");
@@ -42,6 +42,39 @@ namespace ShopNestManagementSystem
             }
 
         }
+
+        // case 1: function to add a physical product 
+        public static void  AddPhysicalProduct()
+        {
+            Console.Write("Enter product name: ");
+            string name = Console.ReadLine() ?? string.Empty;
+
+            Console.WriteLine("Enter product price: ");
+            double price = double.Parse(Console.ReadLine() ?? string.Empty);
+
+            Console.WriteLine("Enter product weight: ");
+            double weight = double.Parse(Console.ReadLine() ?? string.Empty);
+
+            Console.WriteLine("Enter product shopping: ");
+            double shopping = double.Parse(Console.ReadLine() ?? string.Empty);
+
+            shop.AddPhysicalProduct(name, price, weight, shopping);
+
+        }
+
+        // case 2: function to add a digital product
+
+        // case 3: function to register a customer
+
+        // case 4: function to place an order
+
+        // case 5: function to display all products
+
+        // case 6: function to display a customer's order history
+
+        // case 7: function to cancel an order
+
+        // case 8: function to display store statistics
         static void Main(string[] args)
         {
             bool exit = false;
@@ -55,6 +88,7 @@ namespace ShopNestManagementSystem
                 {
                     case 1:
 
+                        AddPhysicalProduct();
 
                         break;
 
@@ -368,7 +402,7 @@ namespace ShopNestManagementSystem
         // method to add a physical product to the store's product list
         public void AddPhysicalProduct(string name, double price, double weight, double shippingPerKg)
         {
-            PhysicalProduct product = new PhysicalProduct(name, price, weight, shippingPerKg)
+            PhysicalProduct product = new PhysicalProduct(name, price, weight, shippingPerKg);
             products.Add(product);
             Console.WriteLine("Physical product added successfully, with ID: " + product.GetProductID);
         }
