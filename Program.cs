@@ -1,4 +1,7 @@
-﻿namespace ShopNestManagementSystem
+﻿using ShopNestManagementSystem;
+using System.Security.Cryptography.X509Certificates;
+
+namespace ShopNestManagementSystem
 {
     internal class Program
     {
@@ -48,10 +51,10 @@
                 DisplayMenu();
                 int option = SelectOption();
 
-                switch(option)
+                switch (option)
                 {
                     case 1:
-                        
+
 
                         break;
 
@@ -59,28 +62,28 @@
                         break;
 
                     case 3:
-                           break;
+                        break;
 
                     case 4:
 
 
-                           break;
+                        break;
 
                     case 5:
-                                
-                           break;
+
+                        break;
 
                     case 6:
 
-                           break;
+                        break;
 
                     case 7:
 
-                           break;
+                        break;
 
                     case 8:
 
-                           break;
+                        break;
 
                     default:
 
@@ -115,7 +118,7 @@
         public double GetPrice { get; }
 
         // property to set the price of the product 
-        public void SetPrice (double value)
+        public void SetPrice(double value)
         {
             if (value < 0)
             {
@@ -129,7 +132,7 @@
         }
 
         // property to only get the total number of products created
-        public static int GetTotalProductsCreated() 
+        public static int GetTotalProductsCreated()
         {
             return totalProductsCreated;
         }
@@ -147,7 +150,7 @@
         public abstract void DisplayInfo();
 
         // method to calculate total cost, can be overridden
-        public virtual double CalculateTotalCost()   
+        public virtual double CalculateTotalCost()
         {
             return price;
         }
@@ -173,11 +176,11 @@
         public override void DisplayInfo()
         {
             Console.WriteLine("Physical product: ");
-            Console.WriteLine("Physical Product ID: " +GetProductID + "\nName: " + name + "\nPrice: " + price + "\nWeight: " + weightKg + "kg" + "\nShipping Cost per kg : " + shippingCostPerKg);
+            Console.WriteLine("Physical Product ID: " + GetProductID + "\nName: " + name + "\nPrice: " + price + "\nWeight: " + weightKg + "kg" + "\nShipping Cost per kg : " + shippingCostPerKg);
         }
 
         // override method to calculate total cost of Physical Product
-        public override double CalculateTotalCost() 
+        public override double CalculateTotalCost()
         {
             price = price + (weightKg * shippingCostPerKg);
             return price;
@@ -192,7 +195,7 @@
         string downloadLink;
 
         // constructor to initialize the Digital product
-        public DigitalProduct(string name, double price, double fileSizeMB, string downloadLink) : base (name, price)
+        public DigitalProduct(string name, double price, double fileSizeMB, string downloadLink) : base(name, price)
         {
             this.fileSizeMB = fileSizeMB;
             this.downloadLink = downloadLink;
@@ -310,7 +313,7 @@
 
     class Order
     {
-       static int nextOrderID = 5000; // Static field to generate unique order IDs
+        static int nextOrderID = 5000; // Static field to generate unique order IDs
         int orderID;
         Customer customer;
         Product product;
@@ -341,6 +344,171 @@
             Console.WriteLine("Customer: " + customer.GetFullName);
             Console.WriteLine("Product: " + product.GetName);
             Console.WriteLine("Total Cost paid: " + totalCost);
+        }
+
+    }
+
+    class Store
+    {
+        private string StoreName { get; set; }
+        List<Product> products;
+        List<Customer> customers;
+        List<Order> orders;
+
+        public Store(string name)
+        {
+            StoreName = name;
+            products = new List<Product>();
+            customers = new List<Customer>();
+            orders = new List<Order>();
+        }
+
+        //---------------------------------Product Methods----------------------------------    
+
+        // method to add a physical product to the store's product list
+        public void AddPhysicalProduct(string name, double price, double weight, double shippingPerKg)
+        {
+            PhysicalProduct product = new PhysicalProduct(name, price, weight, shippingPerKg)
+            products.Add(product);
+            Console.WriteLine("Physical product added successfully, with ID: " + product.GetProductID);
+        }
+
+        // method to add a digital product to the store's product list
+        public void AddDigitalProduct(string name, double price, double fileSizeMB, string link)
+        {
+            DigitalProduct product = new DigitalProduct(name, price, fileSizeMB, link);
+
+            products.Add(product);
+            Console.WriteLine("Digital product added successfully, with ID: " + product.GetProductID);
+        }
+
+        public void DisplayAllProducts()
+        {
+            foreach (var product in products)
+            {
+                product.DisplayInfo();
+                Console.WriteLine("-----------------------------------");
+            }
+        }
+
+        //---------------------------------Customer Methods----------------------------------   
+
+        // method to register a new customer, ensuring that the email is unique
+        public void RegisterCustomer(string fullName, string email)
+        {
+            Customer info = customers.Find(c => c.GetEmail == email);
+
+            if (info != null)
+            {
+                Console.WriteLine("This email already exists. Please enter a new email!");
+                return;
+            }
+
+            Customer customer = new Customer(fullName, email);
+            customers.Add(customer);
+            Console.WriteLine("Customer registered successfully.");
+        }
+
+        // method to find a customer by their email address
+        public Customer FindCustomer(string email)
+        {
+            foreach (var customer in customers)
+            {
+                if (customer.GetEmail == email)
+                {
+                    return customer;
+                }
+            }
+
+            Console.WriteLine("Customer not found. Please enter a valid email.");
+            return null;
+        }
+
+        //--------------------------------Order Methods----------------------------------
+
+        public void PlaceOrder(string email, int productID)
+        {
+            Customer customer = customers.Find(c => c.GetEmail == email);
+            if (customer == null)
+            {
+                Console.WriteLine("Order placement failed. Customer not found.");
+                return;
+            }
+
+            Product product = products.Find(p => p.GetProductID == productID);
+            if (product == null)
+            {
+                Console.WriteLine("Order placement failed. Product not found.");
+                return;
+            }
+
+            // Create a new order and add it to the orders list and the customer's order history
+            Order order = new Order(customer, product);
+            orders.Add(order);
+            customer.AddOrder(order);
+            Console.WriteLine("Order placed successfully with Order ID: " + order.GetOrderID + " , and total cost: " + product.CalculateTotalCost);
+        }
+
+        //  method to cancel an existing order 
+        public void CancelOrder(int orderID)
+        {
+            Order order = orders.Find(o => o.GetOrderID == orderID);
+
+            if (order == null)
+            {
+                Console.WriteLine("Order not found.");
+                return;
+            }
+
+            customers.Remove(order.GetCustomer);
+            orders.Remove(order);
+            Console.WriteLine("Order cancelled successfully.");
+        }
+
+        public void DisplayCustomerOrders(string email)
+        {
+            Customer customer = customers.Find(c => c.GetEmail == email);
+            if (customer == null)
+            {
+                Console.WriteLine("Customer not found. Please enter a valid email.");
+                return;
+            }
+
+            customer.DisplayInfo();
+            customer.DisplayOrderHistory();
+        }
+
+        //---------------------------------Statistics / Report----------------------------------
+
+        public void DisplayStatistics()
+        {
+            double totalRevenue = orders.Sum(o => o.GetTotalCost);
+
+            int PhysicalCount = 0;
+            int DigitalCount = 0;
+
+            foreach(var product in products)
+            {
+                if (product is PhysicalProduct)
+                {
+                    PhysicalCount++;
+                }
+                else if (product is DigitalProduct)
+                {
+                    DigitalCount++;
+                }
+            }
+
+            Console.WriteLine("================== Shop Nest Report ===================");
+            Console.WriteLine("Store name: " + StoreName);
+            Console.WriteLine("Total Products: " + Product.GetTotalProductsCreated());
+            Console.WriteLine("Physical count: " + PhysicalProduct.GetTotalProductsCreated);
+            Console.WriteLine("Digital count: " + DigitalProduct.GetTotalProductsCreated());
+            Console.WriteLine("Registered customers: " + User.GetTotalUsersCreated());
+            Console.WriteLine("Total Orders: " + orders.Count);
+            Console.WriteLine("Total revenue: " + totalRevenue);
+            Console.WriteLine("Total users: " + User.GetTotalUsersCreated);
+            Console.WriteLine("=======================================================");
         }
 
     }
