@@ -104,8 +104,6 @@ namespace ShopNestManagementSystem
             shop.PlaceOrder(email, productID);
         }
 
-        // case 5: function to display all products
-
         // case 6: function to display a customer's order history
 
         // case 7: function to cancel an order
@@ -147,6 +145,8 @@ namespace ShopNestManagementSystem
                         break;
 
                     case 5:
+
+                        shop.DisplayAllProducts();
 
                         break;
 
