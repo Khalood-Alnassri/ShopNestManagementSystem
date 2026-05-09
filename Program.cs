@@ -114,6 +114,13 @@ namespace ShopNestManagementSystem
         }
 
         // case 7: function to cancel an order
+        public static void CancelOrder()
+        {
+            Console.Write("Enter order ID to cancel: ");
+            int orderID = int.Parse(Console.ReadLine() ?? string.Empty);
+
+            shop.CancelOrder(orderID);
+        }
 
         // case 8: function to display store statistics
         static void Main(string[] args)
@@ -164,6 +171,8 @@ namespace ShopNestManagementSystem
                         break;
 
                     case 7:
+
+                        CancelOrder();
 
                         break;
 
