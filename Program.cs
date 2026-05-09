@@ -121,8 +121,7 @@ namespace ShopNestManagementSystem
 
             shop.CancelOrder(orderID);
         }
-
-        // case 8: function to display store statistics
+        
         static void Main(string[] args)
         {
             bool exit = false;
@@ -177,6 +176,8 @@ namespace ShopNestManagementSystem
                         break;
 
                     case 8:
+
+                        shop.DisplayStatistics();
 
                         break;
 
