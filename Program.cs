@@ -105,6 +105,13 @@ namespace ShopNestManagementSystem
         }
 
         // case 6: function to display a customer's order history
+        public static void DisplayCustomerOrderHistory()
+        {
+            Console.Write("Enter customer email: ");
+            string email = Console.ReadLine() ?? string.Empty;
+
+            shop.DisplayCustomerOrders(email);
+        }
 
         // case 7: function to cancel an order
 
@@ -151,6 +158,8 @@ namespace ShopNestManagementSystem
                         break;
 
                     case 6:
+
+                        DisplayCustomerOrderHistory();
 
                         break;
 
