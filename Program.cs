@@ -80,7 +80,16 @@ namespace ShopNestManagementSystem
             shop.AddDigitalProduct(name, price, fileSizeMB, link);
         }
         // case 3: function to register a customer
+        public static void RegisterCustomer()
+        {
+            Console.Write("Enter full name: ");
+            string fullName = Console.ReadLine() ?? string.Empty;
 
+            Console.Write("Enter email: ");
+            string email = Console.ReadLine() ?? string.Empty;
+
+            shop.RegisterCustomer(fullName, email);
+        }
         // case 4: function to place an order
 
         // case 5: function to display all products
@@ -114,6 +123,9 @@ namespace ShopNestManagementSystem
                         break;
 
                     case 3:
+
+                        RegisterCustomer();
+
                         break;
 
                     case 4:
